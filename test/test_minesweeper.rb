@@ -2,7 +2,7 @@
 # -*- ruby -*-
 
 require 'test/unit'
-require 'app/minesweeper'
+require_relative '../app/minesweeper'
 
 class TestMineSweeper < Test::Unit::TestCase
     def test_new
@@ -17,6 +17,22 @@ class TestMineSweeper < Test::Unit::TestCase
     end
 
     def test_play
+        game = Minesweeper.new(10,10,5)
+
+        assert_equal false, game.play(11,1)
+        assert_equal false, game.play(-1,1)
+        assert_equal false, game.play(1,11)
+        assert_equal false, game.play(11,11)
+        assert_equal false, game.play(-1,-1)
+        assert_equal true, game.play(10,1)
+        assert_equal true, game.play(10,10)
+        assert_equal true, game.play(1,1)
+        assert_equal true, game.play(2,1)
+        assert_equal true, game.play(1,2)
+        assert_equal true, game.play(1,10)
+        assert_equal false, game.play(1,10)
+        assert_equal true, game.play(3,4)
+        assert_equal false, game.play(3,4)
     end
 
     def test_flag

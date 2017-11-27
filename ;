@@ -8,11 +8,10 @@ class Minesweeper
     # Inicializar matrix de celulas 
     def initialize(largura, altura, nbombas)
         
-        # Se numero de bombas maior que celulas, ou zero, 
+        # Se numero de bombas maior que celulas, 
         # inicializao invalida
-        if nbombas >= (largura * altura) or nbombas <= 0
+        if nbombas >= (largura * altura)
             return false
-            # aprimoramento: criar e lancar excecao correspondente
         end
         
         # obtendo handler para o campo
@@ -40,8 +39,6 @@ class Minesweeper
 
     def flag(x, y)
         x, y = x-1, y-1
-
-        # Coordenadas devem estar dentro dos limites
         if x < 0 or y < 0 or @board.largura <= x or @board.altura <= y
             return false
         elsif @board.cell[x,y].isClicked == true
