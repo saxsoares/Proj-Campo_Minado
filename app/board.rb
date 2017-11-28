@@ -2,36 +2,7 @@
 # -*- ruby -*-
 
 require 'matrix'
-
-class Cell
-    attr_accessor :isClicked 
-    attr_accessor :isFlagged 
-    attr_accessor :isBomb 
-    attr_accessor :isClean
-    def initialize
-        @isClicked  = false
-        @isFlagged  = false
-        @isBomb     = false
-        @isClean    = false
-    end
-    def to_s
-        bombs_near = 1
-        if @isClicked == false
-            return "|#|"
-        elsif @isClean == true
-            return "|_|"
-        elsif @isFlagged == true
-            return "|F|"
-        elsif @isBomb == true
-            return "|B|"
-        else
-            return "|#{bombs_near}|"
-        end
-    end
-    def to_str
-        to_s
-    end
-end
+require_relative 'cell'
 
 class Board
     attr_accessor :cell
@@ -40,36 +11,57 @@ class Board
     attr_accessor :bombsFound
     attr_accessor :largura
     attr_accessor :altura
-    def initialize(largura, altura, nbombas)
+
+    def initialize(largura, altura, n_bombas)
         @largura = largura
-        @altura = altura
-        @nbombas = nbombas
+        @altura  = altura
+        @num_bombas = n_bombas
 
-        @cell = Matrix.build(altura, largura) { Cell.new }
+        @cell = Matrix.build(@largura, @altura) { |x, y| Cell.new(x, y) }
 
-        @bombs = []
-        while nbombas > 0
-            x, y = rand(largura), rand(altura)
-            if !@bombs.include?([x,y])
-                @bombs << [x, y]
-                @cell[x,y].isBomb = true
-                nbombas -= 1
-            end            
-        end
+        @bombs = genBombs(@largura, @altura, n_bombas)
     end
 
-    def to_s
+    def to_s(show_all: false, xray: false)
         representacao = ""
-        for i in (0...@largura)
-            for j in (0...@altura)
-                representacao <<  @cell[i,j].to_s
+        for i in (0...@altura)
+            for j in (0...@largura)
+                representacao <<  @cell[j,i].to_s(xray: xray)
             end
-            representacao << "\n" 
+            representacao << "\n" unless i == (@largura - 1)
         end
-        representacao << "bombas: " + @bombs.to_s
+        if show_all
+            representacao << "\n" 
+            representacao << "bombas: " + @bombs.to_s
+        end
+        representacao
     end
 
     def to_str
         to_s
+    end
+
+    #####################--Auxiliares--################################
+
+    def print_coord
+        for i in (0...@altura)
+            for j in (0...@largura)
+                print @cell[j,i].coordenates
+            end
+            print "\n"
+        end
+    end
+
+    def genBombs(largura, altura, n_bombas)
+        bombs_aux = []
+        while n_bombas > 0
+            x, y = rand(largura), rand(altura)
+            if !bombs_aux.include?([x,y])
+                bombs_aux << [x, y]
+                @cell[x, y].isBomb = true
+                n_bombas -= 1
+            end            
+        end
+        bombs_aux
     end
 end

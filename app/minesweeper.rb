@@ -4,18 +4,14 @@
 require_relative 'board'
 
 class Minesweeper
-
-    # Inicializar matrix de celulas 
+    
     def initialize(largura, altura, nbombas)
-        
-        # Se numero de bombas maior que celulas, ou zero, 
-        # inicializao invalida
+         
         if nbombas >= (largura * altura) or nbombas <= 0
             return false
             # aprimoramento: criar e lancar excecao correspondente
         end
         
-        # obtendo handler para o campo
         @board = Board.new(largura, altura, nbombas)
         @gameOver = false
         @victory = false
@@ -24,12 +20,10 @@ class Minesweeper
     def play(x, y)
         x,y = x - 1, y - 1
 
-        # Coordenadas devem estar dentro dos limites do campo:
         if x < 0 or y < 0 or @board.largura <= x or @board.altura <= y
             return false
-        # Celula clicada nao pode estar clicada ou com bandeira
-        elsif @board.cell[x,y].isClicked == true or 
-              @board.cell[x,y].isFlagged == true
+        elsif @board.cell[x,y].isClicked  or 
+              @board.cell[x,y].isFlagged 
             return false
         else
             @board.cell[x,y].isClicked = true
@@ -41,10 +35,9 @@ class Minesweeper
     def flag(x, y)
         x, y = x-1, y-1
 
-        # Coordenadas devem estar dentro dos limites
-        if x < 0 or y < 0 or @board.largura <= x or @board.altura <= y
+        if x < 0 or y < 0 or x >= @board.largura or y >= @board.altura
             return false
-        elsif @board.cell[x,y].isClicked == true
+        elsif @board.cell[x,y].isClicked
             return false
         else
             @board.cell[x,y].isFlagged = @board.cell[x,y].isFlagged ? false : true
