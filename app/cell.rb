@@ -7,7 +7,7 @@ class Cell
     attr_accessor :isClicked 
     attr_accessor :isFlagged 
     attr_accessor :isBomb 
-    attr_accessor :isClean
+    attr_accessor :isEmpty
     attr_accessor :hadBombNear
     attr_accessor :numBombsNear
     attr_accessor :coord_x 
@@ -19,23 +19,22 @@ class Cell
         @isClicked  = false
         @isFlagged  = false
         @isBomb     = false
-        @isClean    = false
+        @isEmpty    = false
         @hadBombNear = false
         @numBombsNear = 0
     end 
     def to_s(xray: false)
-        @xray = xray
-        if @xray and @isBomb
+        if xray and @isBomb
             return "|B|"
         elsif @xray and @hadBombNear
             return "|#{@numBombsNear}|"
-        elsif @isClicked == false
+        elsif !@isClicked
             return "|#|"
         elsif @isFlagged 
             return "|F|"
         elsif @isBomb
             return "|B|"
-        elsif @isClean
+        elsif @isEmpty
             return "|_|"
         elsif @hadBombNear
             return "|#{@numBombsNear}|"

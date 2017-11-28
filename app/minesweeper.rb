@@ -7,57 +7,65 @@ class Minesweeper
     
     def initialize(largura, altura, nbombas)
          
-        if nbombas >= (largura * altura) or nbombas <= 0
-            return false
-            # aprimoramento: criar e lancar excecao correspondente
-        end
-        
+        raise ArgumentError if (nbombas >= (largura * altura) or nbombas <= 0 or largura <= 0 or altura <= 0)
+    
         @board = Board.new(largura, altura, nbombas)
         @gameOver = false
         @victory = false
     end
+    
+    def play(coord_x, coord_y)
+        coord_x, coord_y = coord_x - 1, coord_y - 1
 
-    def play(x, y)
-        x,y = x - 1, y - 1
-
-        if x < 0 or y < 0 or @board.largura <= x or @board.altura <= y
+        if (coord_x < 0) or (coord_y < 0) or (@board.largura <= coord_x) or (@board.altura <= coord_y)
             return false
-        elsif @board.cell[x,y].isClicked  or 
-              @board.cell[x,y].isFlagged 
+        elsif @board.cell_at[coord_x, coord_y].isClicked  or 
+              @board.cell_at[coord_x, coord_y].isFlagged 
             return false
         else
-            @board.cell[x,y].isClicked = true
-            check_cell(x,y)
+            @board.cell_at[coord_x, coord_y].isClicked = true
+            check_cell_at(coord_x, coord_y)
             return true
         end
     end
 
-    def flag(x, y)
-        x, y = x-1, y-1
+    def flag(coord_x, coord_y)
+        coord_x, coord_y = coord_x-1, coord_y-1
 
-        if x < 0 or y < 0 or x >= @board.largura or y >= @board.altura
+        if (coord_x < 0) or (coord_y < 0) or (coord_x >= @board.largura) or (coord_y >= @board.altura)
             return false
-        elsif @board.cell[x,y].isClicked
+        elsif @board.cell_at[coord_x, coord_y].isClicked
             return false
         else
-            @board.cell[x,y].isFlagged = @board.cell[x,y].isFlagged ? false : true
+            @board.cell_at[coord_x, coord_y].isFlagged = @board.cell_at[coord_x, coord_y].isFlagged ? false : true
             return true
         end
     end
 
     def still_playing?
+        return !@gameOver
     end
 
     def victory?
+        return (@gameOver and @victory)
     end
 
     def board_state(xray: false)
-        board.to_s
+        if(@gameOver)
+            @board.to_s(xray: xray)
+        else
+            @board.to_s(xray: false)
+        end
     end
 
-    private def check_cell(x, y)
+    def check_cell_at(coord_x, coord_y)
+        if @board.cell_at[coord_x, coord_y].isBomb
+            @gameOver = true
+        elsif !@board.cell_at[coord_x, coord_y].hadBombNear
+            expand(coord_x, coord_y)
+        end
     end
 
-    private def expand
+    def expand(coord_x, coord_y)
     end
 end
