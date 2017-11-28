@@ -4,7 +4,7 @@ require_relative '../app/minesweeper'
 class TestBoard
     class T2
         def test_game
-            @board = Board.new(6,4,2)
+            @board = Board.new(6,6,10)
             print "\n"
             @board.print_coord
             print "\n"

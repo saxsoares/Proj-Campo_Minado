@@ -20,6 +20,12 @@ class Board
         @cell = Matrix.build(@largura, @altura) { |x, y| Cell.new(x, y) }
 
         @bombs = genBombs(@largura, @altura, n_bombas)
+        for i in @cell
+            i.numBombsNear = countBombsAround(i)
+            if i.numBombsNear > 0
+                i.hadBombNear = true
+            end
+        end
     end
 
     def to_s(show_all: false, xray: false)
@@ -63,5 +69,13 @@ class Board
             end            
         end
         bombs_aux
+    end
+
+    def countBombsAround(aCell)
+        aux = []
+        for eachViz in aCell.vizinhos(@largura, @altura)
+            aux << @cell[eachViz[0], eachViz[1]]
+        end
+        aux.select {|i| i.isBomb == true }.count
     end
 end

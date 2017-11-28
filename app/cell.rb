@@ -22,14 +22,13 @@ class Cell
         @isClean    = false
         @hadBombNear = false
         @numBombsNear = 0
-        @neighbors =[[x-1, y-1], [x, y-1], [x+1, y-1], 
-                     [x-1, y  ],           [x+1, y  ], 
-                     [x-1, y+1], [x, y+1], [x+1, y+1]]
     end 
     def to_s(xray: false)
         @xray = xray
         if @xray and @isBomb
             return "|B|"
+        elsif @xray and @hadBombNear
+            return "|#{@numBombsNear}|"
         elsif @isClicked == false
             return "|#|"
         elsif @isFlagged 
@@ -51,8 +50,11 @@ class Cell
         return "[#{@coord_x}, #{@coord_y}]"
     end 
     def vizinhos(largura, altura)
+        neighbors =[[@coord_x-1, @coord_y-1], [@coord_x, @coord_y-1], [@coord_x+1, @coord_y-1], 
+                    [@coord_x-1, @coord_y ],                          [@coord_x+1, @coord_y  ], 
+                    [@coord_x-1, @coord_y+1], [@coord_x, @coord_y+1], [@coord_x+1, @coord_y+1]]
         myNeighbors = []
-        for viz in @neighbors
+        for viz in neighbors
             if !(viz[0] < 0 or viz[0] >= largura or viz[1] < 0 or viz[1] >= altura)
                 myNeighbors << viz
             end

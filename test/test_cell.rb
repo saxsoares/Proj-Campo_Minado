@@ -5,23 +5,14 @@ require_relative '../app/cell'
 class TestBoard
     class T1
         def test_board
-            @board = Board.new(6,6,2)
-            print @board.to_s(show_all: true, xray: true)
+            @board = Board.new(6,6,4)
+            print @board.to_s(xray: true)
             print "\n"
-            print @board.cell[0,0].coordenates 
-            print "\n"
-            print @board.cell[0,0].vizinhos(4,4) 
-            print "\n"
-            print @board.cell[5,0].vizinhos(6,6) 
-            print "\n"
-            print @board.cell[0,5].vizinhos(6,6) 
-            print "\n"
-            print @board.cell[5,5].vizinhos(6,6) 
-            print "\n"
-            print @board.cell[0,2].vizinhos(6,6) 
-            print "\n"
-            print @board.cell[5,2].vizinhos(6,6) 
-            print "\n"
+            for i in @board.cell 
+                print i.coordenates + ": "
+                print @board.countBombsAround(i)
+                print "\n"
+            end
         end
     end
     
