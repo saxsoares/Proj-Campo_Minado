@@ -28,7 +28,7 @@ class TestMineSweeper
             puts "Você venceu!"
         else
             puts "Você perdeu! As minas eram:"
-            PrettyPrinter.new.printt(game.board_state(xray: true))
+            PrettyPrinter.new.printt(game.board_state(xray: true), final: true)
             print "\n"
         end
     end

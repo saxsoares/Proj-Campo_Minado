@@ -15,10 +15,12 @@ class Minesweeper
         @board      = Board.new(largura, altura, nbombas)
         @gameOver   = false
         @victory    = false
+        @cells_to_open = (altura * largura) - nbombas
+        @cells_openned = 0
+        @cells_flagged = 0
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-    
     def play(coord_x, coord_y)
         
         # If game is over, don't play
@@ -33,13 +35,12 @@ class Minesweeper
             return false
         else
             @board.cell_at[coord_x, coord_y].isClicked = true
-            check_cell_at(coord_x, coord_y)
+            @cells_openned += check_cell_at(coord_x, coord_y) 
             return true
         end
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-
     def flag(coord_x, coord_y)
         cell = @board.cell_at[coord_x, coord_y]
         if (coord_x < 0) or (coord_y < 0)   or 
@@ -51,16 +52,8 @@ class Minesweeper
         else
             if cell.isFlagged 
                 cell.isFlagged = false
-                @board.num_flags  -= 1
             else
                 cell.isFlagged = true
-                @board.num_flags += 1
-                if cell.isBomb 
-                    @board.num_bombs_found += 1 
-                    if @board.num_bombs_found == @board.num_bombs then
-                        @victory, @gameOver = true, true
-                    end
-                end
             end
 
             return true
@@ -68,19 +61,21 @@ class Minesweeper
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-
     def still_playing?
-        return !@gameOver
+        if @cells_openned == @cells_to_open
+            @victory = true
+            @gameOver = true
+            return false
+        end
+       true
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-
     def victory?
-        return (@gameOver and @victory)
+        return @victory
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-
     def board_state(xray: false)
         if(@gameOver)
             @board.to_s(xray: xray )
@@ -95,9 +90,12 @@ class Minesweeper
         cell = @board.cell_at[coord_x, coord_y]
         if cell.isBomb
             @gameOver = true
+            return 0
         elsif !cell.hadBombNear
             expand(cell)
+            return 1
         end
+        return 1
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
