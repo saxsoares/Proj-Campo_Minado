@@ -3,10 +3,11 @@
 
 require 'test/unit'
 require_relative '../app/minesweeper'
+require_relative '../app/simpleprinter'
 
 class TestMineSweeper 
     def test_new
-        width, height, num_mines = 10, 10, 1
+        width, height, num_mines = 10, 20, 51
         game = Minesweeper.new(width, height, num_mines)
         while game.still_playing?
             x, y = rand(width), rand(height)
@@ -16,9 +17,8 @@ class TestMineSweeper
             valid_flag = game.flag(x, y)
             print "flag(#{x}, #{y})\n"
             if valid_move or valid_flag
-                #printer = (rand > 0.5) ? SimplePrinter.new : PrettyPrinter.new
-                print(game.board_state())
-                print "\n"
+                printer = (rand > 0.5) ? SimplePrinter.new : PrettyPrinter.new
+                printer.printt(game.board_state)
             end
             print "\n"
         end
@@ -28,7 +28,7 @@ class TestMineSweeper
             puts "Você venceu!"
         else
             puts "Você perdeu! As minas eram:"
-            print(game.board_state(xray: true))
+            PrettyPrinter.new.printt(game.board_state(xray: true))
             print "\n"
         end
     end

@@ -8,7 +8,7 @@ class TestBoard
             print "\n"
             @board.print_coord
             print "\n"
-            print @board.to_s(show_all: true, xray: true)
+            print @board.to_s(xray: true)
             print "\n"
         end
     end

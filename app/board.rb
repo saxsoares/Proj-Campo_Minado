@@ -12,7 +12,8 @@ class Board
     attr_accessor :largura
     attr_accessor :altura
     attr_reader   :num_bombs
-
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
     def initialize(largura, altura, n_bombas)
         @largura    = largura
         @altura     = altura
@@ -30,28 +31,18 @@ class Board
             end
         end
     end
-
-    def to_s(show_all: false, xray: false)
-        representacao = ""
-        for coord_y in (0...@altura)
-            for coord_x in (0...@largura)
-                representacao <<  @cell_at[coord_x, coord_y].to_s(xray: xray, show_all: show_all)
-            end
-            representacao << "\n" unless coord_y == (@altura - 1)
-        end
-        if show_all
-            representacao << "\n" 
-            representacao << "bombas: " + @bombs.to_s
-        end
-        representacao
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
+    def to_s(xray: false)
+        status =  Matrix.build(@largura, @altura) {|coord_x, coord_y| @cell_at[coord_x, coord_y].to_s(xray: xray)}
     end
-
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
     def to_str
         to_s
     end
-
-    #####################--Auxiliares--################################
-
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
     def print_coord
         for i in (0...@altura)
             for j in (0...@largura)
@@ -60,7 +51,8 @@ class Board
             print "\n"
         end
     end
-
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
     def genBombs(largura, altura, n_bombas)
         bombs_aux = []
         while n_bombas > 0
@@ -73,7 +65,8 @@ class Board
         end
         bombs_aux
     end
-
+#-------------------------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------------------------- 
     def countBombsAround(oneCell)
         aux = []
         for vizinho in oneCell.vizinhos(@largura, @altura)

@@ -7,7 +7,7 @@ class TestBoard
     def test_cell_state
         @game = Minesweeper.new(6,6,10)
             
-        print @game.board_state(xray: true, show_all: true)
+        print @game.board_state(xray: true)
         print "\n"
         
 

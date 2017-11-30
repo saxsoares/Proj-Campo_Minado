@@ -2,6 +2,8 @@
 # -*- ruby -*-
 
 require_relative 'board'
+require_relative 'simpleprinter'
+require_relative 'prettyprinter'
 
 class Minesweeper
 
@@ -79,11 +81,11 @@ class Minesweeper
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
 
-    def board_state(xray: false, show_all: false)
+    def board_state(xray: false)
         if(@gameOver)
-            @board.to_s(xray: xray, show_all: show_all)
+            @board.to_s(xray: xray )
         else
-            @board.to_s(xray: false, show_all: show_all)
+            @board.to_s(xray: false)
         end
     end
     #-------------------------------------------------------------------------

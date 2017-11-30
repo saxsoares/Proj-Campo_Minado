@@ -39,45 +39,48 @@ class TestMineSweeper < Test::Unit::TestCase
     end
 
     def test_play
-        game = Minesweeper.new(10,10,5)
-
-        assert_equal false, game.play(11,1)
-        assert_equal false, game.play(-1,1)
-        assert_equal false, game.play(1,11)
-        assert_equal false, game.play(11,11)
+        game = Minesweeper.new(10,10,50)
+        
+        assert(false, "Deveria ser true, mas estes testes nao irao mais funcionar. Foram uteis no inicio do projeto")
+        assert_equal false, game.play(10,0)
+        assert_equal false, game.play(-1,0)
+        assert_equal false, game.play(0,10)
+        assert_equal false, game.play(10,10)
         assert_equal false, game.play(-1,-1)
-        assert_equal true, game.play(10,1)
-        assert_equal true, game.play(10,10)
-        assert_equal true, game.play(1,1)
-        assert_equal true, game.play(2,1)
-        assert_equal true, game.play(1,2)
-        assert_equal true, game.play(1,10)
-        assert_equal false, game.play(1,10)
-        assert_equal true, game.play(3,4)
-        assert_equal false, game.play(3,4)
+        assert_equal true, game.play(9,0)
+        assert_equal game.board.altura, 10
+        assert_equal game.board.largura, 10
+        assert_equal true, game.play(9,9)
+        assert_equal true, game.play(0,0)
+        assert_equal true, game.play(1,0)
+        assert_equal true, game.play(0,1)
+        assert_equal true, game.play(0,9)
+        assert_equal false, game.play(0,9)
+        assert_equal true, game.play(2,3)
+        assert_equal false, game.play(2,3)
     end
 
     def test_flag
         game = Minesweeper.new(10,10,5)
         
-        assert_equal false, game.flag(11,1)
-        assert_equal false, game.flag(-1,1)
-        assert_equal false, game.flag(1,11)
-        assert_equal false, game.flag(11,11)
+        assert_equal false, game.flag(10,0)
+        assert_equal false, game.flag(-1,0)
+        assert_equal false, game.flag(0,10)
+        assert_equal false, game.flag(10,10)
         assert_equal false, game.flag(-1,-1)
-        assert_equal true, game.flag(10,1)
-        assert_equal true, game.flag(10,10)
-        assert_equal true, game.flag(1,1)
-        assert_equal true, game.flag(2,1)
-        assert_equal true, game.flag(1,2)
-        assert_equal true, game.flag(1,10)
-        assert_equal true, game.play(3,4)
+        assert_equal true, game.flag(9,0)
+        assert_equal true, game.flag(9,9)
+        assert_equal true, game.flag(0,0)
+        assert_equal true, game.flag(1,0)
+        assert_equal true, game.flag(0,1)
+        assert_equal true, game.flag(0,9)
+        assert_equal true, game.play(2,3)
         
-        game.play(3,4)
-        game.play(3,7)
+        game.play(2,3)
+        game.play(2,6)
 
-        assert_equal false, game.flag(3,4)
-        assert_equal false, game.flag(3,7)
+        assert_equal false, game.flag(2,3)
+        assert_equal false, game.flag(2,6)
     end
 
     def test_still_playing

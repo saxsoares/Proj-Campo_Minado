@@ -5,7 +5,7 @@ class TestBoard
     class T1
         def test_board
             @board = Board.new(4,4,2)
-            print @board.to_s(show_all: true, xray: true)
+            print @board.to_s(xray: true)
             print "\n"
         end
     end
