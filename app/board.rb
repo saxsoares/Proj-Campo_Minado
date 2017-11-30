@@ -7,16 +7,18 @@ require_relative 'cell'
 class Board
     attr_accessor :cell_at
     attr_accessor :bombs
-    attr_accessor :flags
-    attr_accessor :bombsFound
+    attr_accessor :num_flags
+    attr_accessor :num_bombs_found
     attr_accessor :largura
     attr_accessor :altura
+    attr_reader   :num_bombs
 
     def initialize(largura, altura, n_bombas)
-        @largura = largura
-        @altura  = altura
-        @num_bombas = n_bombas
-
+        @largura    = largura
+        @altura     = altura
+        @num_flags  = 0
+        @num_bombs  = n_bombas
+        @num_bombs_found = 0
         @cell_at = Matrix.build(@largura, @altura) { |coord_x, coord_y| Cell.new(coord_x, coord_y) }
 
         @bombs = genBombs(@largura, @altura, n_bombas)
@@ -24,19 +26,18 @@ class Board
             oneCell.numBombsNear = countBombsAround(oneCell)
             if oneCell.numBombsNear > 0
                 oneCell.hadBombNear = true
-            else
-                oneCell.isEmpty = true
+                oneCell.isEmpty = false
             end
         end
     end
 
     def to_s(show_all: false, xray: false)
         representacao = ""
-        for y in (0...@altura)
-            for x in (0...@largura)
-                representacao <<  @cell_at[coord_x, coord_y].to_s(xray: xray)
+        for coord_y in (0...@altura)
+            for coord_x in (0...@largura)
+                representacao <<  @cell_at[coord_x, coord_y].to_s(xray: xray, show_all: show_all)
             end
-            representacao << "\n" unless y == (@largura - 1)
+            representacao << "\n" unless coord_y == (@altura - 1)
         end
         if show_all
             representacao << "\n" 

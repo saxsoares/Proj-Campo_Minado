@@ -17,6 +17,18 @@ class TestMineSweeper < Test::Unit::TestCase
         assert_raise(ArgumentError) do
             excesso_bombas = Minesweeper.new(5,5,26)
         end
+        assert_raise(ArgumentError) do
+            largura_zero = Minesweeper.new(-1,10,2)
+        end
+        assert_raise(ArgumentError) do
+            largura_zero = Minesweeper.new(10,-2,2)
+        end
+        assert_raise(ArgumentError) do
+            largura_zero = Minesweeper.new(10,0,2)
+        end
+        assert_raise(ArgumentError) do
+            largura_zero = Minesweeper.new(10,10,-2)
+        end
         assert_equal Minesweeper, game.class
 
         assert game.respond_to?(:play)

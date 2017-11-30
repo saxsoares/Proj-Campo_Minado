@@ -10,32 +10,31 @@ class Cell
     attr_accessor :isEmpty
     attr_accessor :hadBombNear
     attr_accessor :numBombsNear
-    attr_accessor :coord_x 
-    attr_accessor :coord_y 
-    attr_accessor :neighbors
+    attr_reader :coord_x 
+    attr_reader :coord_y 
     def initialize(x, y)
-        @coord_x = x 
-        @coord_y = y 
-        @isClicked  = false
-        @isFlagged  = false
-        @isBomb     = false
-        @isEmpty    = false
-        @hadBombNear = false
+        @coord_x      = x 
+        @coord_y      = y 
+        @isClicked    = false
+        @isFlagged    = false
+        @isBomb       = false
+        @isEmpty      = true 
+        @hadBombNear  = false
         @numBombsNear = 0
     end 
-    def to_s(xray: false)
-        if xray and @isBomb
+    def to_s(xray: false, show_all: false)
+        if @isBomb and ( xray or show_all )
             return "|B|"
-        elsif @xray and @hadBombNear
+        elsif show_all and @hadBombNear
             return "|#{@numBombsNear}|"
-        elsif !@isClicked
-            return "|#|"
         elsif @isFlagged 
             return "|F|"
+        elsif !@isClicked
+            return "|.|"
         elsif @isBomb
             return "|B|"
         elsif @isEmpty
-            return "|_|"
+            return "| |"
         elsif @hadBombNear
             return "|#{@numBombsNear}|"
         else    
