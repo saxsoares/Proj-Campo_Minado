@@ -41,7 +41,7 @@ class TestMineSweeper < Test::Unit::TestCase
     def test_play
         game = Minesweeper.new(10,10,50)
         
-        assert(false, "Deveria ser true, mas estes testes nao irao mais funcionar. Foram uteis no inicio do projeto")
+        assert(false, "Deveria ser true, mas estes testes nao irao mais funcionar devido a aleatoriedade do game. Foram uteis no inicio do projeto")
         assert_equal false, game.play(10,0)
         assert_equal false, game.play(-1,0)
         assert_equal false, game.play(0,10)
@@ -84,9 +84,32 @@ class TestMineSweeper < Test::Unit::TestCase
     end
 
     def test_still_playing
+        game = Minesweeper.new(10,10,5)
+        
+        assert_equal true, game.still_playing?
+
+        x, y  = rand(10), rand(10)
+        game.play(x, y) unless game.board.cell_at[x, y].isBomb
+        assert_equal true, game.still_playing?
+        
+        x, y  = rand(10), rand(10)
+        game.play(x, y) unless game.board.cell_at[x, y].isBomb
+        assert_equal true, game.still_playing?
+        
+        x, y  = rand(10), rand(10)
+        game.play(x, y) unless game.board.cell_at[x, y].isBomb
+        assert_equal true, game.still_playing?
     end
 
     def test_victory
+        game = Minesweeper.new(10,10,50)
+
+        while game.still_playing?
+            x, y  = rand(10), rand(10)
+            game.play(x, y) unless game.board.cell_at[x, y].isBomb
+        end
+        
+        assert_equal true, game.victory?
     end
 
     def test_board_state

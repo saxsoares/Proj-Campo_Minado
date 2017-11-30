@@ -39,7 +39,7 @@ class Board
     end
 #-------------------------------------------------------------------------------------------- 
 #-------------------------------------------------------------------------------------------- 
-    def print_coord
+    def print_coord                 # auxiliar function to check coordinates of each cell
         for i in (0...@altura)
             for j in (0...@largura)
                 print @cell_at[j,i].coordenates

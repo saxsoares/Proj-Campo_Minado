@@ -16,23 +16,29 @@ class TestMineSweeper
 #\n}                               
         puts "Please, enter a valid limits to a board <x, y>: "
         width, height = gets.split.map(&:to_i)
+        
         puts "Now, tell me how many bombs you want to hunt <num>: "
         num_mines = gets.chomp.to_i
+        
         game = Minesweeper.new(width, height, num_mines)
+        
         SimplePrinter.new.printt(game.board_state)
+        
         while game.still_playing?
+            
             puts  "Enter an operation <(f)[lag] | (p)[lay]>: "
-            op = gets.chomp[/[fp]/]
-            if op != "p" and op != "f"
-                puts "Operation unknown: #{op}"
+            op = gets.chomp[/(flag)|(Flag)|(FLAG)|(play)|(Play)|(PLAY)|p|P|f|F/] 
+            if op.nil?
+                puts "Operation unknown."
                 next
             end
+            
             puts  "And now, enter a cell coordenate <x, y>:\n"
             x, y = gets.split.map(&:to_i)
-            if op == "p"
+            if op[/[pP]/]
                 valid_move = game.play(x, y)
                 print "play(#{x}, #{y})\n"
-            elsif op == "f"
+            elsif op[/[fF]/]
                 valid_flag = game.flag(x, y)
                 print "flag(#{x}, #{y})\n"
             end
@@ -42,11 +48,11 @@ class TestMineSweeper
             end
         end
     
-        puts "Fim do jogo!" 
+        puts "Game Over!" 
         if game.victory?
-            puts "Você venceu!"
+            puts "You win!"
         else
-            puts "Você perdeu! As minas eram:"
+            puts "You lose. See the mines:"
             PrettyPrinter.new.printt(game.board_state(xray: true), final: true)
             print "\n"
         end

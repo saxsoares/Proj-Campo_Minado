@@ -4,6 +4,16 @@ require_relative '../app/cell'
 require 'test/unit'
 
 class TestBoard < Test::Unit::TestCase
+    
+    def test_new
+        @cell = Cell.new(3, 4)
+        
+        assert_not_equal nil,@cell.nil?
+        assert_equal 3, @cell.coord_x
+        assert_equal 4, @cell.coord_y
+        assert_equal 0, @cell.numBombsNear
+    end
+    
     def test_neighborhood_cell
         @game = Minesweeper.new(6,6,4)
         
@@ -33,7 +43,7 @@ class TestBoard < Test::Unit::TestCase
         @game = Minesweeper.new(6,6,7)
         
         for i in @game.board.cell_at 
-            assert_equal "|#|", i.to_s
+            assert_equal "|.|", i.to_s
         end
     end    
 

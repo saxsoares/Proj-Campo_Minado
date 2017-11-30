@@ -15,6 +15,7 @@ class Minesweeper
         @board      = Board.new(largura, altura, nbombas)
         @gameOver   = false
         @victory    = false
+        @still_playing = true
         @cells_to_open = (altura * largura) - nbombas
         @cells_openned = 0
         @cells_flagged = 0
@@ -35,7 +36,7 @@ class Minesweeper
             return false
         else
             @board.cell_at[coord_x, coord_y].isClicked = true
-            @cells_openned += check_cell_at(coord_x, coord_y) 
+            check_cell_at(coord_x, coord_y) 
             return true
         end
     end
@@ -62,12 +63,12 @@ class Minesweeper
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
     def still_playing?
-        if @cells_openned == @cells_to_open
+        if @cells_openned >= @cells_to_open 
             @victory = true
             @gameOver = true
             return false
         end
-       true
+        @still_playing 
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
@@ -85,17 +86,16 @@ class Minesweeper
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
-
+    
     def check_cell_at(coord_x, coord_y)
         cell = @board.cell_at[coord_x, coord_y]
         if cell.isBomb
             @gameOver = true
-            return 0
+            @still_playing = false
         elsif !cell.hadBombNear
             expand(cell)
-            return 1
         end
-        return 1
+        @cells_openned += 1
     end
     #-------------------------------------------------------------------------
     #-------------------------------------------------------------------------
