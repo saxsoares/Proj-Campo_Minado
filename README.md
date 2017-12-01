@@ -1,14 +1,33 @@
 # Proj-Campo_Minado
 Minesweeper engine made with Ruby
 
-Esta engine possui os seguintes metodos:
+Esta engine possui as seguintes classes e metodos:
 
 ```
-boolean play(coord_x, coord_y)
-boolean flag(coord_x, coord_y)
-boolean still_playing?()
-boolean victory?()
-Matrix board_state(xray: false)
+class Minesweeper
+    boolean play(coord_x, coord_y)
+    boolean flag(coord_x, coord_y)
+    boolean still_playing?()
+    boolean victory?()
+    Matrix board_state(xray: false)
+end
+class Board
+    new(altura, largura, num_bombs)
+    string to_s(xray: false)
+    genBombs(largura, altura, n_bombas)   
+    countBombsAround(Cell)
+end
+class Cell
+    new(x, y)
+    to_s
+    Array vizinhos
+end
+class SimplePrinter
+    string printt
+end
+class PrettyPrinter
+    string printt(final: false)
+end
 ```
 - play: recebe as coordenadas x e y do tabuleiro e clica na célula correspondente; a célula passa a ser
 "descoberta". Retorna um booleano informando se a jogada foi válida. A jogada é válida somente se a célula
