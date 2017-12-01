@@ -3,6 +3,13 @@ Minesweeper engine made with Ruby
 
 Esta engine possui os seguintes metodos:
 
+```
+boolean play(coord_x, coord_y)
+boolean flag(coord_x, coord_y)
+boolean still_playing?()
+boolean victory?()
+Matrix board_state(xray: false)
+```
 - play: recebe as coordenadas x e y do tabuleiro e clica na célula correspondente; a célula passa a ser
 "descoberta". Retorna um booleano informando se a jogada foi válida. A jogada é válida somente se a célula
 selecionada ainda não foi clicada e ainda não tem uma bandeira. Caso a célula clicada seja válida, não tenha uma
