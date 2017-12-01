@@ -1,6 +1,8 @@
 # Proj-Campo_Minado
 Minesweeper engine made with Ruby
 
+## Para testar, experimente executar os arquivos _demonstracao.rb_ e _demonstracao-2.rb_
+
 Esta engine possui as seguintes classes e metodos:
 
 ```
